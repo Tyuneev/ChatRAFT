@@ -20,10 +20,7 @@ struct ChatRAFTApp: App {
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    private let locationService = LocationService()
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        locationService.requestPermission()
-        locationService.start()
         return true
     }
 }

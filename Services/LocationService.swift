@@ -14,7 +14,7 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
     
     private let locationManager = CLLocationManager()
     private let motionManager = CMMotionActivityManager()
-    
+    private var sendService: ConectService? = nil
     override init() {
         super.init()
         configurate()
@@ -23,7 +23,7 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
     private func configurate() {
         locationManager.delegate = self
         locationManager.allowsBackgroundLocationUpdates = true
-        locationManager.pausesLocationUpdatesAutomatically = false
+        //locationManager.pausesLocationUpdatesAutomatically = false
     }
     
     func requestPermission() {
@@ -49,13 +49,15 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
             locationManager.distanceFilter = CLLocationDistanceMax
         }
     }
+    func setSendService(_ service: ConectService){
+        self.sendService = service
+    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("===================================")
         locations.forEach({
             print($0.coordinate.latitude)
             print($0.coordinate.longitude)
+            sendService?.sendGeoposition(GeopositionModel(user: "", latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude)) //костыль
         })
-        print("===================================")
     }
 }

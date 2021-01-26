@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var model: HomeViewModel
     var body: some View {
-        ZStack {
+        Group{
             if self.model.userStatus == .loading {
                 LoadinView()
             } else if self.model.userStatus == .notLogIn {

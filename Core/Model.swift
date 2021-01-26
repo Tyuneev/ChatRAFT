@@ -44,23 +44,26 @@ struct GeopositionModel {
     let user: String
     let latitude: Double
     let longitude: Double
-    var timeStamp: Date
-    var fromUser: Bool
+    var timeStamp: Date = Date()
+    var fromUser: Bool = false
 }
 
 final class Model: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     let service: ConectService
-    
+    private let locationService = LocationService()
     @Published var userStatus = UserStatus.loading
     @Published var messeges = [MessegeModel]()
-    @Published var geopositions = [GeopositionModel]()
+    @Published var geopositions: Dictionary<String,GeopositionModel> = [:]
     @Published var members: Dictionary<String,MemberModel> = [:]
     init(service: ConectService) {
-        userStatus = .loading// service.curentStatus()
-        self.service = service
         
+        userStatus = service.curentStatus()
+        self.service = service
+        locationService.requestPermission()
+        locationService.start()
+        locationService.setSendService(service)
         service.UserStatusPublisher()
             .sink(receiveValue: { [self] s in
                 switch s {
@@ -73,6 +76,11 @@ final class Model: ObservableObject {
                     service.MembersPublisher()
                         .sink(receiveValue: { mmbr in
                             self.members[mmbr.id] = (mmbr.name == "" ? nil : mmbr)
+                        })
+                        .store(in: &cancellables)
+                    service.GeopositionsPublisher()
+                        .sink(receiveValue: { geo in
+                            self.geopositions[geo.user] = geo
                         })
                         .store(in: &cancellables)
                 default:

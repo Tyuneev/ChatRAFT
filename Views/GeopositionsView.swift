@@ -16,6 +16,28 @@ final class GeopositionsViewModel: ObservableObject {
     @Published var inCentr: GeopositionModel? = nil
     private var curentIndex = 0
     
+    init(model: Model? = nil) {
+        if let model = model {
+            self.members = model.members
+            model
+                .$members
+                .assign(to: \.members, on: self)
+                .store(in: &cancellables)
+            model
+                .$geopositions
+                .sink{ geo in
+                    self.geopositions = geo.map{$0.value}
+                    if self.geopositions.count - 1 < self.curentIndex {
+                        self.curentIndex = self.geopositions.count - 1
+                    }
+                }
+                .store(in: &cancellables)
+        } else {
+            self.members = [:]
+        }
+       
+    }
+    
     func next() {
         if curentIndex < geopositions.count-1 {
             curentIndex += 1
@@ -28,22 +50,6 @@ final class GeopositionsViewModel: ObservableObject {
             curentIndex -= 1
         } else if geopositions.count > 0  {
             curentIndex = geopositions.count - 1
-        }
-    }
-    func i() {
-        
-    }
-    
-    init(model: Model? = nil){
-        if let model = model {
-            model.$geopositions
-                .assign(to: \.geopositions, on: self)
-                .store(in: &cancellables)
-            model.$members
-                .assign(to: \.members, on: self)
-                .store(in: &cancellables)
-        } else {
-            
         }
     }
 }
@@ -69,8 +75,6 @@ struct GeopositionsView: View {
                 .foregroundColor(.red)
                 .padding(.bottom, 40)
                 .padding(.trailing)
-
-                
             }
         }
     }
@@ -96,6 +100,7 @@ struct MapView: UIViewRepresentable {
             let point = MKPointAnnotation()
             point.coordinate = CLLocationCoordinate2D(latitude: i.latitude, longitude: i.longitude)
             point.title = self.model.members[i.user]?.name ?? ""
+            point.subtitle = i.timeStamp.description
             uiView.removeAnnotations(uiView.annotations)
             uiView.addAnnotation(point)
             // }

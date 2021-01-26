@@ -23,7 +23,6 @@ class MembersViewModel: ObservableObject {
             self.members = [
                 MemberModel(id: "1", name: "Иван Иванов "),
                 MemberModel(id: "2", name: "Путин", online: true),
-                MemberModel(id: "3", name: "Навальный (либераха)"),
                 MemberModel(id: "4", name: "Барыга"),
                 MemberModel(id: "6", name: "Мама"),
                 MemberModel(id: "7", name: "Папа")

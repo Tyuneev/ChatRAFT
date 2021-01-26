@@ -205,6 +205,7 @@ final class FirebaseService: ConectService {
 
     func createGroup(userName: String) {
         let group = UUID().uuidString
+        
         self.joinGroup(groupID: group, userName: userName)
     }
         
@@ -282,6 +283,7 @@ final class FirebaseService: ConectService {
     }
     
     func joinGroup(groupID: String, userName: String) {
+        self.groupID = groupID
         guard let user = self.userID else {
             self.errorSubject.send("Вход не выполнен")
             return

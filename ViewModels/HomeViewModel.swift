@@ -19,6 +19,7 @@ final class HomeViewModel: ObservableObject {
     lazy var joinGroupViewModel = JoinGroupViewModel(service: model.service)
     lazy var chatViewModel = ChatViewModel(model: model)
     lazy var membersViewModel = MembersViewModel(model: model)
+    lazy var geopositionsViewModel = GeopositionsViewModel(model: model)
     lazy var settingsViewModel: SettingsViewModel = {
         switch self.userStatus {
         case let .inGroup(group, name):
@@ -28,7 +29,7 @@ final class HomeViewModel: ObservableObject {
         }
     }()
     
-    lazy var geopositionsViewModel = GeopositionsViewModel()
+    
     
     init(model: Model) {
         self.model = model
