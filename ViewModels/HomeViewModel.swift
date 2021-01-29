@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 final class HomeViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
@@ -36,7 +37,9 @@ final class HomeViewModel: ObservableObject {
         self.userStatus = model.userStatus
         model.$userStatus
             .sink(receiveValue: { s in
-                self.userStatus = s
+                withAnimation(){
+                    self.userStatus = s
+                }
             })
             .store(in: &cancellables)
         model.service.ErrorsPublisher()

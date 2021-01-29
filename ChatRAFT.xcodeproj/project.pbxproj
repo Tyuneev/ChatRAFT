@@ -38,6 +38,7 @@
 		B9A4B94525AEE24000FF7A65 /* ModelProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A4B94425AEE24000FF7A65 /* ModelProtocols.swift */; };
 		B9A4B94925B3118300FF7A65 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = B9A4B94825B3118300FF7A65 /* Realm */; };
 		B9A4B94B25B3118300FF7A65 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B9A4B94A25B3118300FF7A65 /* RealmSwift */; };
+		B9B5C9A225C3DDDD0030FCEA /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B5C9A125C3DDDD0030FCEA /* Logger.swift */; };
 		B9F028E02581200400D717F7 /* MessegeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F028DF2581200400D717F7 /* MessegeView.swift */; };
 		B9F028E52581208600D717F7 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F028E42581208600D717F7 /* ChatView.swift */; };
 		B9F02903258128B700D717F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B953225F257EB25E00BABBD4 /* GoogleService-Info.plist */; };
@@ -72,6 +73,7 @@
 		B9A4B93B259B4EB800FF7A65 /* ReachabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityService.swift; sourceTree = "<group>"; };
 		B9A4B940259E70AE00FF7A65 /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AppIcon.appiconset; sourceTree = "<group>"; };
 		B9A4B94425AEE24000FF7A65 /* ModelProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelProtocols.swift; sourceTree = "<group>"; };
+		B9B5C9A125C3DDDD0030FCEA /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		B9F028B9257ED56100D717F7 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		B9F028D525811E6900D717F7 /* FirebaseMessegerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseMessegerModel.swift; sourceTree = "<group>"; };
 		B9F028DF2581200400D717F7 /* MessegeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessegeView.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			children = (
 				B96B251A2585562000522F1C /* FirebaseServices.swift */,
 				B963A1A52592B6DA00B7D36C /* LocationService.swift */,
+				B9B5C9A125C3DDDD0030FCEA /* Logger.swift */,
 				B9A4B93B259B4EB800FF7A65 /* ReachabilityService.swift */,
 			);
 			path = Services;
@@ -272,6 +275,7 @@
 				B92623F2258A591F005E3D0E /* MessegeViewModel.swift in Sources */,
 				B9711208258EEA350091E1CB /* CreateGroupViewModel.swift in Sources */,
 				B97111F1258C03CC0091E1CB /* SwiftUIView.swift in Sources */,
+				B9B5C9A225C3DDDD0030FCEA /* Logger.swift in Sources */,
 				B971120E258EEA8E0091E1CB /* SignInViewModel.swift in Sources */,
 				B96B25122583FA1400522F1C /* MembersView.swift in Sources */,
 				B953224F257EB08100BABBD4 /* ChatRAFTApp.swift in Sources */,

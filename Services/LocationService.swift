@@ -23,7 +23,7 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
     private func configurate() {
         locationManager.delegate = self
         locationManager.allowsBackgroundLocationUpdates = true
-        //locationManager.pausesLocationUpdatesAutomatically = false
+ //       locationManager.pausesLocationUpdatesAutomatically = false
     }
     
     func requestPermission() {
@@ -54,6 +54,7 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         locations.forEach({
             print($0.coordinate.latitude)
             print($0.coordinate.longitude)

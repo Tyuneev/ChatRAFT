@@ -9,51 +9,6 @@ import SwiftUI
 import MapKit
 import Combine
 
-final class GeopositionsViewModel: ObservableObject {
-    private var cancellables = Set<AnyCancellable>()
-    @Published var geopositions = [GeopositionModel]()
-    @Published var members = [String: MemberModel]()
-    @Published var inCentr: GeopositionModel? = nil
-    private var curentIndex = 0
-    
-    init(model: Model? = nil) {
-        if let model = model {
-            self.members = model.members
-            model
-                .$members
-                .assign(to: \.members, on: self)
-                .store(in: &cancellables)
-            model
-                .$geopositions
-                .sink{ geo in
-                    self.geopositions = geo.map{$0.value}
-                    if self.geopositions.count - 1 < self.curentIndex {
-                        self.curentIndex = self.geopositions.count - 1
-                    }
-                }
-                .store(in: &cancellables)
-        } else {
-            self.members = [:]
-        }
-       
-    }
-    
-    func next() {
-        if curentIndex < geopositions.count-1 {
-            curentIndex += 1
-        } else if curentIndex == geopositions.count - 1 {
-            curentIndex = 0
-        }
-    }
-    func prev() {
-        if curentIndex > 0 {
-            curentIndex -= 1
-        } else if geopositions.count > 0  {
-            curentIndex = geopositions.count - 1
-        }
-    }
-}
-
 struct GeopositionsView: View {
     @ObservedObject var model: GeopositionsViewModel
     var body: some View {
@@ -63,13 +18,16 @@ struct GeopositionsView: View {
                 Spacer()
                 VStack {
                     Spacer()
-                    Image(systemName: "location.circle.fill")
+                    Button(action: self.model.showSelf) {
+                        Image(systemName: "location.circle.fill")
                             .padding(.vertical)
-                    Image(systemName: "chevron.right.circle.fill")
-                    Image(systemName: "chevron.left.circle.fill")
-//                    Capsule()
-//                        .frame(width: 50, height: 100)
-//                        .padding()
+                    }
+                    Button(action: self.model.showNext) {
+                        Image(systemName: "chevron.right.circle.fill")
+                    }
+                    Button(action: self.model.showPrev) {
+                        Image(systemName: "chevron.left.circle.fill")
+                    }
                 }
                 .font(.largeTitle)
                 .foregroundColor(.red)
@@ -95,16 +53,19 @@ struct MapView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        for i in self.model.geopositions {
-            //if i.key != name{
+        for g in self.model.geopositions {
             let point = MKPointAnnotation()
-            point.coordinate = CLLocationCoordinate2D(latitude: i.latitude, longitude: i.longitude)
-            point.title = self.model.members[i.user]?.name ?? ""
-            point.subtitle = i.timeStamp.description
+            point.coordinate = CLLocationCoordinate2D(latitude: g.latitude, longitude: g.longitude)
+            point.title = self.model.members[g.user]?.name ?? ""
+            point.subtitle = g.timeStamp.description
             uiView.removeAnnotations(uiView.annotations)
             uiView.addAnnotation(point)
-            // }
-            
+            if let centr = model.inCentr, centr == g, model.needMoveMap {
+                let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: centr.latitude, longitude: centr.longitude), span: uiView.region.span)
+                uiView.setRegion(region, animated: true)
+                uiView.selectAnnotation(point, animated: true)
+                model.needMoveMap = false
+            }
         }
     }
 }

@@ -34,12 +34,12 @@ class MembersViewModel: ObservableObject {
 }
 
 struct MembersView: View {
-    var model: MembersViewModel
+    @ObservedObject var model: MembersViewModel
     var body: some View {
         ScrollView{
             VStack(alignment: .leading, spacing: 20){
                 ForEach(self.model.members){ member in
-                    HStack{
+                    HStack {
                         Text(String(member.name.first!))
                             .fontWeight(.heavy)
                             .foregroundColor(.white)

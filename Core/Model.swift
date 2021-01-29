@@ -40,7 +40,7 @@ struct MessegeModel: Identifiable, Equatable {
     var fromUser: Bool
 }
 
-struct GeopositionModel {
+struct GeopositionModel: Equatable{
     let user: String
     let latitude: Double
     let longitude: Double
@@ -52,18 +52,20 @@ final class Model: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     let service: ConectService
-    private let locationService = LocationService()
+    private let locationService: LocationService
     @Published var userStatus = UserStatus.loading
     @Published var messeges = [MessegeModel]()
     @Published var geopositions: Dictionary<String,GeopositionModel> = [:]
     @Published var members: Dictionary<String,MemberModel> = [:]
-    init(service: ConectService) {
+    init() {
+        service = FirebaseService()
+        userStatus = .loading
         
-        userStatus = service.curentStatus()
-        self.service = service
+        locationService = LocationService()
         locationService.requestPermission()
         locationService.start()
         locationService.setSendService(service)
+        
         service.UserStatusPublisher()
             .sink(receiveValue: { [self] s in
                 switch s {
