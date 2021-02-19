@@ -8,10 +8,13 @@
 import Foundation
 
 struct MessegeViewModel {
-    let from: MemberModel
-    let messege: MessegeModel
-    init(_ messege: MessegeModel, from: MemberModel){
-        self.from = from
+    let from: Member
+    let messege: Messege
+    init(_ messege: Messege, from: Member?){
+        self.from = from ?? Member(id: "", name: "")
         self.messege = messege
+    }
+    var fromUser: Bool {
+        return messege.sender == .user
     }
 }

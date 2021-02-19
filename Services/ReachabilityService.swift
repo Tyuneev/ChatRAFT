@@ -31,14 +31,16 @@ class IPv6reachability: ReachabilityServiceProtocol {
         guard let reachability = reachability else {
             return
         }
-        reachability.whenReachable = { reachability in
+        reachability.whenReachable = { [weak self] reachability in
+            self?.reachabilitySubject.send(.IPv4)
             if reachability.connection == .wifi {
                 print("Reachable via WiFi")
             } else {
                 print("Reachable via Cellular")
             }
         }
-        reachability.whenUnreachable = { _ in
+        reachability.whenUnreachable = { [weak self] _ in
+            self?.reachabilitySubject.send(.noInternet)
             print("Not reachable")
         }
 
@@ -53,3 +55,5 @@ class IPv6reachability: ReachabilityServiceProtocol {
         return self.reachabilitySubject.eraseToAnyPublisher()
     }
 }
+
+///https://stackoverflow.com/questions/30748480/swift-get-devices-wifi-ip-address/30754194#30754194

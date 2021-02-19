@@ -8,14 +8,30 @@
 import Foundation
 
 class CreateGroupViewModel: ObservableObject{
-    init(service: ConectService? = nil){
-        self.service = service
+    init(){
+        self.groupService = FirebaseServices.shered.group
     }
-    let service: ConectService?
+    let groupService: GroupServiceProtocol
     @Published var name = ""
+    @Published var loading = false
+    @Published var alertIsPresented = false
+    var alertText = ""
+    
     func createGroup(){
         if name != "" {
-            service?.createGroup(userName: name)
+            loading = true
+            groupService.createGroup(userInfo: Member(id: "", name: name)) {  [weak self] error in
+                if let error = error {
+                    self?.alertText  = error.localizedDescription
+                    self?.loading = false
+                    self?.alertIsPresented  = true
+                } else{
+                    
+                }
+            }
+        } else {
+            alertText = "Введите имя"
+            alertIsPresented = true
         }
     }
 }

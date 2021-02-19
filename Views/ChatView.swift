@@ -28,9 +28,11 @@ struct ChatView: View {
             ScrollViewReader { reader in
                 ScrollView {
                     VStack(spacing: 15) {
-                        ForEach(model.messeges) { m in
-                            MessegeView(model: MessegeViewModel(m, from: model.members[m.user] ?? MemberModel()))
-                                .id(m.id)
+                        ForEach(model.messeges) { messege in
+                            MessegeView(model:
+                                MessegeViewModel(messege, from: model.members[messege.id])
+                            )
+                                .id(messege.id)
                                 .onAppear {
                                     reader.scrollTo(model.messeges.last!.id, anchor: .bottom)
                                 }

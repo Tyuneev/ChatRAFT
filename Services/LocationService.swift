@@ -14,11 +14,13 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
     
     private let locationManager = CLLocationManager()
     private let motionManager = CMMotionActivityManager()
-    private var sendService: ConectService? = nil
-    override init() {
+    private var geopositionService: GeopositionSheringServiceProtocol
+    init(geopositionService: GeopositionSheringServiceProtocol) {
+        self.geopositionService = geopositionService
         super.init()
         configurate()
     }
+    
     
     private func configurate() {
         locationManager.delegate = self
@@ -34,7 +36,6 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
         setActiveMode(true)
         locationManager.startUpdatingLocation()
         locationManager.startMonitoringSignificantLocationChanges()
-        
         motionManager.startActivityUpdates(to: .main, withHandler: { [weak self] activity in
             self?.setActiveMode(activity?.cycling ?? false)
         })
@@ -49,16 +50,14 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
             locationManager.distanceFilter = CLLocationDistanceMax
         }
     }
-    func setSendService(_ service: ConectService){
-        self.sendService = service
-    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        locations.forEach({
-            print($0.coordinate.latitude)
-            print($0.coordinate.longitude)
-            sendService?.sendGeoposition(GeopositionModel(user: "", latitude: $0.coordinate.latitude, longitude: $0.coordinate.longitude)) //костыль
-        })
+        guard let coordinate = locations.last?.coordinate else {
+            return
+        }
+        geopositionService.sendGeoposition(Geoposition(latitude: coordinate.latitude, longitude: coordinate.longitude, timeStamp: Date(), sender: .user)) { _ in
+
+        }
+    
     }
 }

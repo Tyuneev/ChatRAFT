@@ -8,20 +8,20 @@
 import Foundation
 import RealmSwift
 
-final class Logger{
-    init(){
+final class Logger {
+    init() {
         self.realm = try? Realm()
     }
     private let realm: Realm?
-    func log(_ content: String){
+    func log(_ content: String) {
         realm?.add(Log(content))
     }
-    private func getLogObjects(_ since: Date? = nil) -> [Log]{
+    private func getLogObjects(_ since: Date? = nil) -> [Log] {
         guard let logs = self.realm?.objects(Log.self) else {
             return []
         }
         let result = logs.compactMap { (log) -> Log? in
-            if let since = since, since < log.timestamp{
+            if let since = since, since < log.timestamp {
                 return nil
             }
             return log
@@ -29,14 +29,14 @@ final class Logger{
         return Array(result)
     }
     
-    func getLogs(since: Date? = nil)-> [(String, Date)]{
+    func getLogs(since: Date? = nil)-> [(String, Date)] {
         let result = getLogObjects(since)
         return result.map{($0.content, $0.timestamp)}
     }
     
-    func clear(){
+    func clear() {
         let objects = getLogObjects()
-        for object in objects{
+        for object in objects {
             realm?.delete(object)
         }
     }
@@ -45,7 +45,7 @@ final class Logger{
 class Log: Object {
     @objc dynamic var content = ""
     @objc dynamic var timestamp = Date()
-    init(_  content: String){
+    init(_  content: String) {
         self.content = content
         self.timestamp = Date()
     }

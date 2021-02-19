@@ -10,27 +10,30 @@ import Combine
 
 class MembersViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
-            
-    init(model: Model? = nil) {
-        if let model = model {
-            self.members = model.members.map {$0.value}
-            model
-                .$members
-                .map({$0.map {$0.value}})
-                .assign(to: \.members, on: self)
-                .store(in: &cancellables)
-        } else {
-            self.members = [
-                MemberModel(id: "1", name: "Иван Иванов "),
-                MemberModel(id: "2", name: "Путин", online: true),
-                MemberModel(id: "4", name: "Барыга"),
-                MemberModel(id: "6", name: "Мама"),
-                MemberModel(id: "7", name: "Папа")
-            ]
-        }
+    let service: MembersServiceProtocol
+    init() {
+        self.service = FirebaseServices.shered.group.members
+        self.service.membersPublisher()
+            .sink { member in
+                self.members.append(member)
+            }
+            .store(in: &cancellables)
+        self.service.delitedMembersPublisher()
+            .sink { member in
+                self.dellit(member)
+            }
+            .store(in: &cancellables)
        
     }
-    @Published var members: [MemberModel]
+    private func dellit(_ member: Member){
+        for (index, mmbr) in members.enumerated() {
+            if mmbr.id == member.id {
+                members.remove(at: index)
+                return
+            }
+        }
+    }
+    @Published var members: [Member] = []
 }
 
 struct MembersView: View {
@@ -44,17 +47,16 @@ struct MembersView: View {
                             .fontWeight(.heavy)
                             .foregroundColor(.white)
                             .frame(width: 50, height: 50)
-                            .background(
-                                //(model.messege.fromUser ? Color.blue:
-                                (Color.red))
+                            .background((Color.red))
                             .clipShape(Circle())
                         Text(member.name)
                             .font(.title2)
                             .frame(width: .infinity, alignment: .leading)
                         Spacer()
                         if member.online{
-                            Circle().foregroundColor(.blue)
+                            Circle()
                                 .frame(width: 15, height: 15)
+                                .foregroundColor(.blue)
                         }
                     }.frame(width: .infinity)
                 }

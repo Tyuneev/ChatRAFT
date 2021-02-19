@@ -19,19 +19,29 @@ struct CreateGroupView: View {
                 .padding()
                 .background(Capsule().stroke(self.model.name != "" ? Color("Color") : Color.gray ,lineWidth: 2))
                 .shadow(radius: 15)
-            Button(action: model.createGroup) {
-                Text("Создать")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding(.vertical)
-                    .frame(width: 150, height: 50)
-                    .background(Color("Color"))
-                    .clipShape(Capsule())
-                    .shadow(radius: 15)
+            if model.loading {
+                LoadinView()
+                    .frame(width: 50, height: 50)
+            } else {
+                Button(action: model.createGroup) {
+                    Text("Создать")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.vertical)
+                        .frame(width: 150, height: 50)
+                        .background(Color("Color"))
+                        .clipShape(Capsule())
+                        .shadow(radius: 15)
+                }
             }
             Spacer().frame(height: 280)
         }.padding(.horizontal)
+        .alert(isPresented: $model.alertIsPresented) {
+            Alert(title: Text("Ошибка"),
+                  message: Text(model.alertText),
+                  dismissButton: .default(Text("Ok")))
+        }
     }
 }
 

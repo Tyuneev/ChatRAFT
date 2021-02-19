@@ -8,25 +8,36 @@
 import Foundation
 
 final class SettingsViewModel: ObservableObject {
-    init(service: ConectService? = nil, groupID: String = "1234АйДи1234блаблабла", userName: String = "Алексей ") {
-        self.service = service
-        self.groupID = groupID
-        self.name = userName
+    init() {
+        self.authenticationService = FirebaseServices.shered.authentication
+        self.groupService = FirebaseServices.shered.group
+        self.name = groupService.userInfo()?.name ?? ""
     }
     @Published var name = ""
     @Published var editField = false
-    var groupID: String
-    let service: ConectService?
+    var groupID: String {
+        groupService.groupInfo()?.id ?? ""
+    }
+    let authenticationService: AuthenticationServiceProtocol
+    let groupService: GroupServiceProtocol
     
     func leftGroup() {
-        service?.leaveGroup()
+        groupService.leaveGroup() { error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }
     }
     func logOut() {
-        service?.logOut()
+        authenticationService.logOut()
     }
     func chageName() {
         if self.name != "" {
-            service?.changeName(name)
+            groupService.changeUserInfo(Member(id: "", name: name)) { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
         }
         self.editField = false
     }

@@ -8,20 +8,36 @@
 import Foundation
 
 class SignInViewModel: ObservableObject {
-    init(service: ConectService? = nil) {
-        self.service = service
+    init() {
+        self.service = FirebaseServices.shered.authentication
     }
-    let service: ConectService?
+    let service: AuthenticationServiceProtocol
     @Published var visible = false
     @Published var email = ""
     @Published var password = ""
     @Published var passwordRepeat = ""
+    @Published var loading = false
+    @Published var alertIsPresented = false
+    var alertText = ""
+    
     func createUser() {
-        if password != "", self.passwordsSame(), email != "" {
-            service?.createUser(with: email, password: password)
+        if password == "" || email == "" {
+            showAlertWith(messege: "Заполните поля")
+        } else if password != passwordRepeat {
+            showAlertWith(messege: "Пароли не совпадают")
+        } else {
+            loading = true
+            service.createUser(with: email, password: password) {  [weak self] error in
+                if let error = error {
+                    self?.showAlertWith(messege: error.localizedDescription)
+                }
+                self?.loading = false
+            }
         }
     }
-    func passwordsSame() -> Bool {
-        return  password == passwordRepeat
+    func showAlertWith(messege: String) {
+        alertText = messege
+        alertIsPresented = true
     }
+
 }

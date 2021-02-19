@@ -10,39 +10,37 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var model: HomeViewModel
     var body: some View {
-        Group{
-            if self.model.userStatus == .loading {
-                LoadinView()
-            } else if self.model.userStatus == .notLogIn {
-                LogInView(model: self.model.logInViewModel)
-            } else if self.model.userStatus == .logIn {
-                JoinGroupView(model: self.model.joinGroupViewModel)
-            } else {
-                tabView
-            }
+        switch self.model.userState {
+        case .loading:
+            LoadinView()
+        case .notLogin:
+            LogInView(model: LogInViewModel())
+        case .login:
+            JoinGroupView(model: JoinGroupViewModel())
+        case .inGroup:
+            tabView
         }
-        .alert(isPresented: self.$model.alert, content: self.alert)
     }
     
     var tabView: some View {
         TabView {
-            MembersView(model: self.model.membersViewModel)
+            MembersView(model: MembersViewModel())
                 .tabItem {
                     Image(systemName: "person.3.fill")
                     Text("Участники")
                 }
-            ChatView(model: self.model.chatViewModel)
+            ChatView(model: ChatViewModel())
                 .tabItem {
                     Image(systemName: "bubble.left.and.bubble.right.fill")
                     Text("Чат")
                 }
-            GeopositionsView(model: self.model.geopositionsViewModel)
+            GeopositionsView(model: GeopositionsViewModel())
                 .ignoresSafeArea(.all, edges: .top)
                 .tabItem {
                     Image(systemName: "map.fill")
                     Text("Локация")
                 }
-            SettingsView(model: model.settingsViewModel)
+            SettingsView(model: SettingsViewModel())
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Настройки")
@@ -50,11 +48,7 @@ struct HomeView: View {
         }
         .accentColor(Color.red)
     }
-    func alert() -> Alert{
-        return  Alert(title: Text("Ошибка"),
-                      message: Text(self.model.alertContent),
-                      dismissButton: .default(Text("OK")))
-    }
+
 }
 
 struct LoadinView: UIViewRepresentable {

@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-
-
 struct LogInView: View {
     @ObservedObject var model: LogInViewModel
     var body: some View {
@@ -21,7 +19,7 @@ struct LogInView: View {
                 TextField("Email", text: self.$model.email)
                     .autocapitalization(.none)
                     .padding()
-                    .background(Capsule().stroke(self.model.email != "" ? Color("Color") : Color.gray ,lineWidth: 2))
+                    .background(Capsule().stroke(self.model.email != "" ? Color("Color") : Color.gray, lineWidth: 2))
                     
 //                .contentShape(Circle())
 //                .shadow(radius: 15)
@@ -60,7 +58,7 @@ struct LogInView: View {
                         .clipShape(Capsule())
                         .shadow(radius: 15)
                 }
-                NavigationLink(destination: SignInView(model: model.sgnInViewModel())){
+                NavigationLink(destination: SignInView(model: SignInViewModel())) {
                     Text("Регистрация")
                         .fontWeight(.bold)
                         .foregroundColor(.white)
@@ -74,6 +72,11 @@ struct LogInView: View {
             }.padding(.horizontal)
         }.accentColor(Color("Color"))
         .navigationBarHidden(true)
+        .alert(isPresented: $model.alertIsPresented) {
+            Alert(title: Text("Ошибка"),
+                  message: Text(model.alertText),
+                  dismissButton: .default(Text("Ok")))
+        }
         
     }
 }

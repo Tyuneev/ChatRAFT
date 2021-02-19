@@ -12,66 +12,94 @@ import Combine
 struct GeopositionsView: View {
     @ObservedObject var model: GeopositionsViewModel
     var body: some View {
-        ZStack{
-            MapView(model: model)
-            HStack{
+        ZStack {
+            self.map
+            self.buttons
+            if model.showDeteil {
+                self.deteils
+            }
+        }
+    }
+    var map: some View {
+        Map(coordinateRegion: $model.coordinateRegion,
+            annotationItems: model.ItemsForAnotations) { item in
+            MapAnnotation(coordinate:  CLLocationCoordinate2D(
+                latitude: item.latitude,
+                longitude: item.longitude )) {
+                CustomAnotationView(name: model.nameFor(item), time: item.timeStamp)
+            }
+        }
+    }
+    var buttons: some View {
+        HStack {
+            Spacer()
+            VStack {
                 Spacer()
-                VStack {
-                    Spacer()
-                    Button(action: self.model.showSelf) {
-                        Image(systemName: "location.circle.fill")
-                            .padding(.vertical)
-                    }
-                    Button(action: self.model.showNext) {
-                        Image(systemName: "chevron.right.circle.fill")
-                    }
-                    Button(action: self.model.showPrev) {
-                        Image(systemName: "chevron.left.circle.fill")
-                    }
+                Button(action: self.model.showSelf) {
+                    Image(systemName: "location.circle.fill")
+                        .padding(.vertical)
                 }
-                .font(.largeTitle)
-                .foregroundColor(.red)
-                .padding(.bottom, 40)
-                .padding(.trailing)
+                Button(action: self.model.showNext)  {
+                    Image(systemName: "chevron.right.circle.fill")
+                }
+                Button(action: self.model.showPrev) {
+                    Image(systemName: "chevron.left.circle.fill")
+                }
             }
+            .font(.largeTitle)
+            .foregroundColor(.red)
+            .padding(.bottom, 40)
+            .padding(.trailing)
         }
     }
-}
-
-
-
-
-struct MapView: UIViewRepresentable {
-    @ObservedObject var model: GeopositionsViewModel
-    let map = MKMapView()
-    func makeUIView(context: Context) -> MKMapView {
-             map.showsUserLocation = true
-             let center = CLLocationCoordinate2D(latitude: 13.086, longitude: 80.2707)
-             let region = MKCoordinateRegion(center: center, latitudinalMeters: 1000, longitudinalMeters: 1000)
-             map.region = region
-             return map
-    }
-    
-    func updateUIView(_ uiView: MKMapView, context: Context) {
-        for g in self.model.geopositions {
-            let point = MKPointAnnotation()
-            point.coordinate = CLLocationCoordinate2D(latitude: g.latitude, longitude: g.longitude)
-            point.title = self.model.members[g.user]?.name ?? ""
-            point.subtitle = g.timeStamp.description
-            uiView.removeAnnotations(uiView.annotations)
-            uiView.addAnnotation(point)
-            if let centr = model.inCentr, centr == g, model.needMoveMap {
-                let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: centr.latitude, longitude: centr.longitude), span: uiView.region.span)
-                uiView.setRegion(region, animated: true)
-                uiView.selectAnnotation(point, animated: true)
-                model.needMoveMap = false
-            }
-        }
+    var deteils: some View {
+       VStack{
+            Spacer().frame(height: 200)
+            Text(model.name).font(.title)
+            Text(model.timeAgo).font(.title3)
+            Spacer()
+       }
     }
 }
 
 struct GeopositionsView_Previews: PreviewProvider {
     static var previews: some View {
         GeopositionsView(model: GeopositionsViewModel())
+    }
+}
+
+struct CustomAnotationView: View {
+    @State var isSelect = false
+    var name: String
+    var time: Date
+    var body: some View {
+        VStack {
+            Text(String(self.name.first!))
+                .fontWeight(.heavy)
+                .foregroundColor(.white)
+                .frame(width: 30, height: 30)
+                .background((Color.red))
+//                .onTapGesture {
+//                    withAnimation() {
+//                        self.isSelect.toggle()
+//                    }
+//                }
+                .clipShape(Circle())
+            Text(self.name)
+                .font(.title)
+            if isSelect {
+                Text(time.timeAgo())
+            } else {
+                Spacer().frame(width: 200)
+            }
+        }.contentShape(Circle())
+    }
+}
+
+extension Date {
+    func timeAgo() -> String {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .full
+        return formatter.localizedString(for: self, relativeTo: Date())
     }
 }

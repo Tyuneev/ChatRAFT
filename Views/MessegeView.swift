@@ -12,28 +12,28 @@ struct MessegeView: View {
     var body: some View {
         VStack {
             HStack(spacing: 15){
-                if !model.messege.fromUser {
+                if !model.fromUser {
                     memberCircle
                 }
-                if model.messege.fromUser {
+                if model.fromUser {
                     Spacer(minLength: 0)
                 }
-                VStack(alignment: model.messege.fromUser ? .trailing : .leading, spacing: 5, content: {
+                VStack(alignment: model.fromUser ? .trailing : .leading, spacing: 5) {
                     Text(model.messege.content)
                         .fontWeight(.semibold)
                         .foregroundColor(.white)
                         .padding()
                         .background(Color("Color"))
-                        .clipShape(MessegeBubble(fromUser:  model.messege.fromUser))
+                        .clipShape(MessegeBubble(fromUser:  model.fromUser))
                     Text(model.messege.timeStamp, style: .time)
                         .font(.caption2)
                         .foregroundColor(.gray)
-                        .padding(!model.messege.fromUser ? .leading : .trailing , 10)
-                })
-                if model.messege.fromUser {
-                    memberCircle
+                        .padding(!model.fromUser ? .leading : .trailing , 10)
                 }
-                if !model.messege.fromUser {
+//                if model.fromUser {
+//                    memberCircle
+//                }
+                if !model.fromUser {
                     Spacer(minLength: 0)
                 }
             }
@@ -45,9 +45,8 @@ struct MessegeView: View {
             .fontWeight(.heavy)
             .foregroundColor(.white)
             .frame(width: 50, height: 50)
-            .background((model.messege.fromUser ? Color.blue : Color.green).opacity(0.5))
+            .background((model.fromUser ? Color.blue : Color.green).opacity(0.5))
             .clipShape(Circle())
-            // Context menu For Name Display...
             .contentShape(Circle())
             .contextMenu {
                 Text(model.from.name)

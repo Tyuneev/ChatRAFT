@@ -17,9 +17,9 @@ struct SignInView: View {
                 .fontWeight(.bold)
                 .foregroundColor(Color("Color"))
             TextField("Email", text: self.$model.email)
-            .autocapitalization(.none)
-            .padding()
-            .background(Capsule().stroke(self.model.email != "" ? Color("Color") : Color.gray ,lineWidth: 2))
+                .autocapitalization(.none)
+                .padding()
+                .background(Capsule().stroke(self.model.email != "" ? Color("Color") : Color.gray ,lineWidth: 2))
             //.contentShape(Circle())
             //.shadow(radius: 15)
             HStack(spacing: 15){
@@ -64,23 +64,33 @@ struct SignInView: View {
                 }
             }
             .padding()
-            .background(Capsule().stroke((self.model.password != "" && self.model.passwordsSame()) ? Color("Color") : Color.gray, lineWidth: 2))
+            .background(Capsule().stroke((self.model.password != "" && self.model.password == self.model.passwordRepeat) ? Color("Color") : Color.gray, lineWidth: 2))
 //            .contentShape(Circle())
 //            .shadow(radius: 15)
             //.padding(.top, 25)
-            Button(action: model.createUser) {
-                Text("Зарегистрироваться ")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding(.vertical)
-                    .frame(width: 250, height: 50)
-                    .background(Color("Color"))
-                    .clipShape(Capsule())
-                    .shadow(radius: 15)
+            if model.loading {
+                LoadinView()
+                    .frame(width: 50, height: 50)
+            } else {
+                Button(action: model.createUser) {
+                    Text("Зарегистрироваться ")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.vertical)
+                        .frame(width: 250, height: 50)
+                        .background(Color("Color"))
+                        .clipShape(Capsule())
+                        .shadow(radius: 15)
+                }
             }
             Spacer().frame(height: 150)
         }.padding(.horizontal)
+        .alert(isPresented: $model.alertIsPresented) {
+            Alert(title: Text("Ошибка"),
+                  message: Text(model.alertText),
+                  dismissButton: .default(Text("Ok")))
+        }
     }
 }
 

@@ -28,19 +28,23 @@ struct JoinGroupView: View {
                     .background(Capsule().stroke(self.model.name != "" ? Color("Color") : Color.gray ,lineWidth: 2))
 //                    .contentShape(Circle())
 //                    .shadow(radius: 15)
-               
-                Button(action: model.joinGroup) {
-                    Text("Присоедениться")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding(.vertical)
-                        .frame(width: 200, height: 50)
-                        .background(Color("Color"))
-                        .clipShape(Capsule())
-                        .shadow(radius: 15)
+                if model.loading {
+                    LoadinView()
+                        .frame(width: 50, height: 50)
+                } else {
+                    Button(action: model.joinGroup) {
+                        Text("Присоедениться")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding(.vertical)
+                            .frame(width: 200, height: 50)
+                            .background(Color("Color"))
+                            .clipShape(Capsule())
+                            .shadow(radius: 15)
+                    }
                 }
-                NavigationLink(destination: CreateGroupView(model: model.createGroupViewModel())){
+                NavigationLink(destination: CreateGroupView(model: CreateGroupViewModel())){
                     Text("Создать группу")
                         .font(.title2)
                         .fontWeight(.bold)
@@ -55,6 +59,16 @@ struct JoinGroupView: View {
                     .frame(minHeight: 0, idealHeight: 150)
             }.padding(.horizontal)
         }.accentColor(Color("Color"))
+        .alert(isPresented: $model.alertIsPresented) {
+            Alert(title: Text("Ошибка"),
+                  message: Text("model.alertText"),
+                  dismissButton: .default(Text("Ok")))
+        }
+        .alert(isPresented: $model.alertIsPresented) {
+            Alert(title: Text("Ошибка"),
+                  message: Text(model.alertText),
+                  dismissButton: .default(Text("Ok")))
+        }
         .navigationBarHidden(true)
     }
 }

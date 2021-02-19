@@ -8,19 +8,31 @@
 import Foundation
 
 class LogInViewModel: ObservableObject{
-    init(service: ConectService? = nil){
-        self.service = service
+    init() {
+        service = FirebaseServices.shered.authentication
     }
-    let service: ConectService?
+    let service: AuthenticationServiceProtocol
     @Published var visible = false
     @Published var email = ""
     @Published var password = ""
-    func logIn(){
-        if password != "" && email != "" {
-            service?.logIn(with: email, password: password)
+    @Published var loading = false
+    @Published var alertIsPresented = false
+    var alertText = ""
+    func logIn() {
+        if password == "" ||  email == "" {
+            alertText  = "Заполните поля"
+            alertIsPresented  = true
+        }  else {
+            loading = true
+            service.logIn(with: email, password: password) { [weak self] error in
+                if let error = error {
+                    self?.loading = false
+                    self?.alertText  = error.localizedDescription
+                    self?.alertIsPresented  = true
+                } else {
+                    
+                }
+            }
         }
-    }
-    func sgnInViewModel() -> SignInViewModel {
-        SignInViewModel(service: service)
     }
 }
