@@ -11,6 +11,7 @@ struct CreateGroupView: View {
     @ObservedObject var model: CreateGroupViewModel
     var body: some View {
         VStack(alignment: .center, spacing: 30) {
+            Spacer().frame(height: 100)
             Text("Создать группу")
                 .font(.title)
                 .fontWeight(.bold)
@@ -18,7 +19,6 @@ struct CreateGroupView: View {
             TextField("Ваше имя", text: self.$model.name)
                 .padding()
                 .background(Capsule().stroke(self.model.name != "" ? Color("Color") : Color.gray ,lineWidth: 2))
-                .shadow(radius: 15)
             if model.loading {
                 LoadinView()
                     .frame(width: 50, height: 50)
@@ -35,7 +35,7 @@ struct CreateGroupView: View {
                         .shadow(radius: 15)
                 }
             }
-            Spacer().frame(height: 280)
+            Spacer()
         }.padding(.horizontal)
         .alert(isPresented: $model.alertIsPresented) {
             Alert(title: Text("Ошибка"),

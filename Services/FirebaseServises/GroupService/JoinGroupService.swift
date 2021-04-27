@@ -47,7 +47,8 @@ class JoinGroupService {
     private func addToMemmbers(groupInfo: GroupInfo, userInfo: Member, comlition: @escaping (Error?) -> ()) {
          _ = try? Firestore.firestore()
                 .collection("mmbr" + groupInfo.id)
-                .addDocument(from: userInfo.makeDocument(with: userInfo.id)) { error in
+                .document(userInfo.id)
+                .setData(from: userInfo.makeDocument(with: userInfo.id)) { error in
                     if let error = error {
                         return comlition(error)
                     } else {

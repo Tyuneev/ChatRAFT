@@ -31,6 +31,7 @@ class MessegerService: MessegerServiceProtocol {
     let firestore: Firestore
     var userID: String? = nil
     var groupID: String? = nil
+    private var messegesArray = [Messege]()
     private var messegesColectionName: String? = nil
     private let messegeSubject = PassthroughSubject<Messege, Never>()
     private var snapshotListener: ListenerRegistration? = nil
@@ -40,23 +41,22 @@ class MessegerService: MessegerServiceProtocol {
     }
     
     func setGroupID(_ id: String?) {
-        self.removeSnapshotListener()
+        self.messegesArray = [Messege]()
         groupID = id
         if let id = id {
             self.messegesColectionName = "msgs" + id
-            self.addSnapshotListener()
         }
         else {
             messegesColectionName = nil
         }
     }
     
-    private func removeSnapshotListener() {
+    func removeSnapshotListener() {
         self.snapshotListener?.remove()
         self.snapshotListener = nil
     }
     
-    private func addSnapshotListener() {
+    func addSnapshotListener() {
         guard let messegesColectionName = messegesColectionName,
               let userID = userID else {
             return
@@ -68,11 +68,17 @@ class MessegerService: MessegerServiceProtocol {
                 data?.documentChanges
                     .filter({$0.type == .added})
                     .forEach { (doc) in
-                        if let messege = try? doc.document.data(as: MessegeDocument.self){
-                            self.messegeSubject.send(Messege(document: messege, userID: userID))
+                        if let messegeDocument = try? doc.document.data(as: MessegeDocument.self) {
+                            let messege = Messege(document: messegeDocument, userID: userID)
+                            self.messegesArray.append(messege)
+                            self.messegeSubject.send(messege)
                         }
                     }
             }
+    }
+    
+    func messeges()->[Messege] {
+        return messegesArray
     }
     
     func messegesPublisher() -> AnyPublisher<Messege, Never> {
@@ -103,7 +109,7 @@ extension Messege {
     init(document: MessegeDocument, userID: String){
         self.id = document.id ?? ""
         self.content = document.content
-        self.timeStamp = Date()
+        self.timeStamp = document.timeStamp
         let senderID = document.user
         self.sender = (senderID == userID ? .user : .id(document.user))
     }

@@ -10,8 +10,10 @@ import Foundation
 class JoinGroupViewModel: ObservableObject{
     init(){
         self.groupService = FirebaseServices.shered.group
+        self.authenticationService = FirebaseServices.shered.authentication
     }
     let groupService: GroupServiceProtocol
+    let authenticationService: AuthenticationServiceProtocol
     @Published var id = ""
     @Published var name = ""
     @Published var loading = false
@@ -39,5 +41,7 @@ class JoinGroupViewModel: ObservableObject{
         }
     }
     
-    
+    func logOut() {
+        authenticationService.logOut()
+    }
 }

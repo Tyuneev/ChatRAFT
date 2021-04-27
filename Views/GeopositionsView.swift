@@ -14,10 +14,13 @@ struct GeopositionsView: View {
     var body: some View {
         ZStack {
             self.map
-            self.buttons
+                .zIndex(1)
             if model.showDeteil {
                 self.deteils
+                    .zIndex(2)
             }
+            self.buttons
+                .zIndex(3)
         }
     }
     var map: some View {
@@ -25,7 +28,8 @@ struct GeopositionsView: View {
             annotationItems: model.ItemsForAnotations) { item in
             MapAnnotation(coordinate:  CLLocationCoordinate2D(
                 latitude: item.latitude,
-                longitude: item.longitude )) {
+                longitude: item.longitude
+            )) {
                 CustomAnotationView(name: model.nameFor(item), time: item.timeStamp)
             }
         }
@@ -53,12 +57,15 @@ struct GeopositionsView: View {
         }
     }
     var deteils: some View {
-       VStack{
-            Spacer().frame(height: 200)
+       VStack {
             Text(model.name).font(.title)
             Text(model.timeAgo).font(.title3)
             Spacer()
+                .frame(height: 200)
+            //Spacer()
        }
+       .contentShape(Rectangle())
+       .animation(.easeIn)//.frame(width: 600, height: 300, alignment: .center)
     }
 }
 
@@ -69,12 +76,12 @@ struct GeopositionsView_Previews: PreviewProvider {
 }
 
 struct CustomAnotationView: View {
-    @State var isSelect = false
+//    @State var isSelect = false
     var name: String
     var time: Date
     var body: some View {
         VStack {
-            Text(String(self.name.first!))
+            Text(String(self.name.first ?? String.Element.init(" ")))
                 .fontWeight(.heavy)
                 .foregroundColor(.white)
                 .frame(width: 30, height: 30)
@@ -85,14 +92,21 @@ struct CustomAnotationView: View {
 //                    }
 //                }
                 .clipShape(Circle())
-            Text(self.name)
-                .font(.title)
-            if isSelect {
-                Text(time.timeAgo())
-            } else {
-                Spacer().frame(width: 200)
-            }
+             //Text(self.name)
+//            if isSelect {
+//                Text(time.timeAgo())
+//            } else {
+//                Spacer().frame(width: 200)
+//            }
+
         }.contentShape(Circle())
+        .contextMenu {
+            VStack {
+                Text(name)
+                    .fontWeight(.bold)
+                Text(time.timeAgo())
+            }
+        }
     }
 }
 

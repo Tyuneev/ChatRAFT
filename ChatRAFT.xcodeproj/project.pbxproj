@@ -12,7 +12,7 @@
 		B92623EC258A4FD6005E3D0E /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92623EB258A4FD6005E3D0E /* SettingsViewModel.swift */; };
 		B92623F2258A591F005E3D0E /* MessegeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92623F1258A591F005E3D0E /* MessegeViewModel.swift */; };
 		B92623FA258A59E9005E3D0E /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92623F9258A59E9005E3D0E /* ChatViewModel.swift */; };
-		B950A13B25CF3EB00081C5DC /* UserStateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B950A13A25CF3EB00081C5DC /* UserStateService.swift */; };
+		B950A13B25CF3EB00081C5DC /* StateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B950A13A25CF3EB00081C5DC /* StateService.swift */; };
 		B950A13F25CF3EF90081C5DC /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B950A13E25CF3EF90081C5DC /* AuthenticationService.swift */; };
 		B950A14225CF3F310081C5DC /* GroupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B950A14125CF3F310081C5DC /* GroupService.swift */; };
 		B950A14625CF64BC0081C5DC /* MessegerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B950A14525CF64BC0081C5DC /* MessegerService.swift */; };
@@ -45,6 +45,7 @@
 		B9F02903258128B700D717F7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B953225F257EB25E00BABBD4 /* GoogleService-Info.plist */; };
 		B9F02907258264A900D717F7 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F02906258264A900D717F7 /* Model.swift */; };
 		B9F0290C25826FE000D717F7 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F0290B25826FE000D717F7 /* HomeView.swift */; };
+		CB89998A25E57C750067773B /* MembersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB89998925E57C750067773B /* MembersViewModel.swift */; };
 		CB96912225D588F70022264A /* FirebaseServicesSingalton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB96912125D588F70022264A /* FirebaseServicesSingalton.swift */; };
 		CB96912925DB20EF0022264A /* LoadinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB96912825DB20EF0022264A /* LoadinView.swift */; };
 		CB96912C25DF3EBE0022264A /* JoinGroupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB96912B25DF3EBE0022264A /* JoinGroupService.swift */; };
@@ -57,7 +58,7 @@
 		B92623EB258A4FD6005E3D0E /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		B92623F1258A591F005E3D0E /* MessegeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessegeViewModel.swift; sourceTree = "<group>"; };
 		B92623F9258A59E9005E3D0E /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
-		B950A13A25CF3EB00081C5DC /* UserStateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStateService.swift; sourceTree = "<group>"; };
+		B950A13A25CF3EB00081C5DC /* StateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateService.swift; sourceTree = "<group>"; };
 		B950A13E25CF3EF90081C5DC /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		B950A14125CF3F310081C5DC /* GroupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupService.swift; sourceTree = "<group>"; };
 		B950A14525CF64BC0081C5DC /* MessegerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessegerService.swift; sourceTree = "<group>"; };
@@ -84,6 +85,9 @@
 		B9F028E42581208600D717F7 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		B9F02906258264A900D717F7 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		B9F0290B25826FE000D717F7 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		CB063F9E2638BBD300BEA159 /* libcraft_api.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libcraft_api.h; sourceTree = "<group>"; };
+		CB063FA02638BBEF00BEA159 /* libcraft.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcraft.a; sourceTree = "<group>"; };
+		CB89998925E57C750067773B /* MembersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersViewModel.swift; sourceTree = "<group>"; };
 		CB96912125D588F70022264A /* FirebaseServicesSingalton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseServicesSingalton.swift; sourceTree = "<group>"; };
 		CB96912825DB20EF0022264A /* LoadinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadinView.swift; sourceTree = "<group>"; };
 		CB96912B25DF3EBE0022264A /* JoinGroupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinGroupService.swift; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				B92623E1258A4F23005E3D0E /* HomeViewModel.swift */,
+				CB89998925E57C750067773B /* MembersViewModel.swift */,
 				B92623F1258A591F005E3D0E /* MessegeViewModel.swift */,
 				B92623F9258A59E9005E3D0E /* ChatViewModel.swift */,
 				B92623E8258A4F83005E3D0E /* GeopositionsViewModel.swift */,
@@ -141,7 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				CB96912125D588F70022264A /* FirebaseServicesSingalton.swift */,
-				B950A13A25CF3EB00081C5DC /* UserStateService.swift */,
+				B950A13A25CF3EB00081C5DC /* StateService.swift */,
 				B950A13E25CF3EF90081C5DC /* AuthenticationService.swift */,
 				CB96913125DFE8D10022264A /* GroupService */,
 			);
@@ -153,9 +158,11 @@
 			children = (
 				B953225F257EB25E00BABBD4 /* GoogleService-Info.plist */,
 				CB96913625DFEC950022264A /* Info.plist */,
+				CB063F9F2638BBEF00BEA159 /* lib */,
+				CB96913325DFEC950022264A /* Services */,
+				CB063F9D2638BBD300BEA159 /* include */,
 				B953223E257EB08000BABBD4 /* Assets.xcassets */,
 				B9A4B940259E70AE00FF7A65 /* AppIcon.appiconset */,
-				CB96913325DFEC950022264A /* Services */,
 				B92623FD258A5A7A005E3D0E /* Model */,
 				B96B25172583FA3100522F1C /* Views */,
 				B92623EF258A4FE3005E3D0E /* ViewModels */,
@@ -187,6 +194,22 @@
 				B9711201258E5B470091E1CB /* CreateGroupView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		CB063F9D2638BBD300BEA159 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				CB063F9E2638BBD300BEA159 /* libcraft_api.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		CB063F9F2638BBEF00BEA159 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				CB063FA02638BBEF00BEA159 /* libcraft.a */,
+			);
+			path = lib;
 			sourceTree = "<group>";
 		};
 		CB96913125DFE8D10022264A /* GroupService */ = {
@@ -325,8 +348,9 @@
 				CB96913A25DFF0200022264A /* LocationService.swift in Sources */,
 				B950A14C25CF64DB0081C5DC /* MembersService.swift in Sources */,
 				B950A14925CF64CC0081C5DC /* GeopositionSheringService.swift in Sources */,
-				B950A13B25CF3EB00081C5DC /* UserStateService.swift in Sources */,
+				B950A13B25CF3EB00081C5DC /* StateService.swift in Sources */,
 				B92623E2258A4F23005E3D0E /* HomeViewModel.swift in Sources */,
+				CB89998A25E57C750067773B /* MembersViewModel.swift in Sources */,
 				B9F028E52581208600D717F7 /* ChatView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -385,11 +409,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				"HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/include";
+				"LIBRARY_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/lib";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				"OTHER_LDFLAGS[arch=*]" = "-lcraft ";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/include";
 			};
 			name = Debug;
 		};
@@ -438,10 +466,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				"HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/include";
+				"LIBRARY_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/lib";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				"OTHER_LDFLAGS[arch=*]" = "-lcraft ";
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				"USER_HEADER_SEARCH_PATHS[arch=*]" = "$(SRCROOT)/include";
 			};
 			name = Release;
 		};
@@ -458,6 +490,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Tyuneev.ChatRAFT;
 				PRODUCT_NAME = ChatRAFT;
@@ -480,6 +516,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Tyuneev.ChatRAFT;
 				PRODUCT_NAME = ChatRAFT;

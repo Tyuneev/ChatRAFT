@@ -16,11 +16,13 @@ final class FirebaseServices {
         self.authenticationService = AuthenticationService(statusService: self.userStateService)
         self.groupService = GroupService(statusService: self.userStateService)
         self.locationService = LocationService(geopositionService: groupService.geopositionSharing)
+        locationService.requestPermission()
+        locationService.start()
     }
     private let locationService: LocationService
     private let userStateService: StateService
     private let authenticationService: AuthenticationService
-    private let groupService:GroupService
+    private let groupService: GroupService
     var userState: UserStatePotocol {
         return self.userStateService
     }

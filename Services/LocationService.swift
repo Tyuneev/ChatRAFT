@@ -25,7 +25,7 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
     private func configurate() {
         locationManager.delegate = self
         locationManager.allowsBackgroundLocationUpdates = true
- //       locationManager.pausesLocationUpdatesAutomatically = false
+//        locationManager.pausesLocationUpdatesAutomatically = false
     }
     
     func requestPermission() {
@@ -55,9 +55,6 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
         guard let coordinate = locations.last?.coordinate else {
             return
         }
-        geopositionService.sendGeoposition(Geoposition(latitude: coordinate.latitude, longitude: coordinate.longitude, timeStamp: Date(), sender: .user)) { _ in
-
-        }
-    
+        geopositionService.sendGeoposition(Geoposition(latitude: coordinate.latitude, longitude: coordinate.longitude, timeStamp: Date(), sender: .user))
     }
 }

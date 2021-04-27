@@ -8,4 +8,13 @@
 import SwiftUI
 
 
+struct LoadinView: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIActivityIndicatorView {
+        let activity = UIActivityIndicatorView()
+        activity.startAnimating()
+        return activity
+    }
+    func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {
+    }
+}
 

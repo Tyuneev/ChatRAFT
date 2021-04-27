@@ -2,18 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>локация вовремя использования</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>локация  во время использования 2</string>
 	<key>NSMotionUsageDescription</key>
-	<string>пердуперждаю</string>
-	<key>NSLocationWhenAlwaysUsageDescription  </key>
-	<string>Предупреждаю епт</string>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
-	<key>Location Always Usage Description</key>
-	<string>Можно поработать с локацией?)</string>
+	<string>Запрос на получение данных  о передвижении</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Запрос на получение геолокации во время использования</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Запрос на получение геолокации</string>
 	<key>CFBundleDisplayName</key>
 	<string>RAFT Chat</string>
 	<key>CFBundleExecutable</key>

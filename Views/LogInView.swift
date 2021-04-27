@@ -20,9 +20,6 @@ struct LogInView: View {
                     .autocapitalization(.none)
                     .padding()
                     .background(Capsule().stroke(self.model.email != "" ? Color("Color") : Color.gray, lineWidth: 2))
-                    
-//                .contentShape(Circle())
-//                .shadow(radius: 15)
                 HStack(spacing: 15){
                     VStack{
                         if self.model.visible {
@@ -47,16 +44,21 @@ struct LogInView: View {
 //                .shadow(radius: 15)
                 
                 //.padding(.top, 25)
-                Button(action: model.logIn) {
-                    Text("Войти")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding(.vertical)
-                        .frame(width: 150, height: 50)
-                        .background(Color("Color"))
-                        .clipShape(Capsule())
-                        .shadow(radius: 15)
+                if model.loading {
+                    LoadinView()
+                        .frame(width: 50, height: 50)
+                } else {
+                    Button(action: model.logIn) {
+                        Text("Войти")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                            .padding(.vertical)
+                            .frame(width: 150, height: 50)
+                            .background(Color("Color"))
+                            .clipShape(Capsule())
+                            .shadow(radius: 15)
+                    }
                 }
                 NavigationLink(destination: SignInView(model: SignInViewModel())) {
                     Text("Регистрация")
@@ -77,7 +79,6 @@ struct LogInView: View {
                   message: Text(model.alertText),
                   dismissButton: .default(Text("Ok")))
         }
-        
     }
 }
 

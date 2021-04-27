@@ -51,7 +51,7 @@ struct MessegeView: View {
             .contextMenu {
                 Text(model.from.name)
                     .fontWeight(.bold)
-        }
+            }
     }
 }
 

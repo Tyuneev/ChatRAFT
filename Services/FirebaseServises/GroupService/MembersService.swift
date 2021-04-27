@@ -30,8 +30,9 @@ class MembersService: MembersServiceProtocol {
     private let membersSubject = PassthroughSubject<Member, Never>()
     private let delitedMembersSubject = PassthroughSubject<Member, Never>()
     private var snapshotListener: ListenerRegistration? = nil
+    private var membersArray = [Member]()
     
-    private func addSnapshotListener() {
+    func addSnapshotListener() {
         guard let membersColectionName = membersColectionName else {
             return
         }
@@ -45,15 +46,17 @@ class MembersService: MembersServiceProtocol {
                            {
                             if doc.type == .removed {
                                 self.delitedMembersSubject.send(member)
+                                self.dellitFromArray(member)
                             } else {
                                 self.membersSubject.send(member)
+                                self.membersArray.append(member)
                             }
                         }
                     }
             }
     }
     
-    private func removeSnapshotListener() {
+    func removeSnapshotListener() {
         self.snapshotListener?.remove()
         self.snapshotListener = nil
     }
@@ -68,6 +71,15 @@ class MembersService: MembersServiceProtocol {
             .delete()
     }
     
+    private func dellitFromArray(_ member: Member){
+        for (index, mmbr) in membersArray.enumerated() {
+            if mmbr.id == member.id {
+                membersArray.remove(at: index)
+                return
+            }
+        }
+    }
+    
     func setGroupID(_ id: String?) {
         if let id = id {
             self.membersColectionName = "mmbr" + id
@@ -77,15 +89,11 @@ class MembersService: MembersServiceProtocol {
         }
     }
     func setUserID(_ id: String?) {
-        removeSnapshotListener()
         userID = id
-        if id != nil {
-            self.addSnapshotListener()
-        }
     }
     
     func members() -> [Member] {
-        return []
+        return self.membersArray
     }
     
     func membersPublisher() -> AnyPublisher<Member, Never> {
@@ -102,8 +110,8 @@ extension Member {
         guard let id = document.id else {
             return nil
         }
-        self.id =  id
+        self.id = id
         self.name = document.name
-        self.online = true
+        self.online = document.isOnline
     }
 }

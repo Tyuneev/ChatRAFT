@@ -55,8 +55,19 @@ struct JoinGroupView: View {
                         .clipShape(Capsule())
                         .shadow(radius: 15)
                 }
+                Button(action: model.logOut) {
+                    Text("Выйти")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .padding(.vertical)
+                        .frame(width: 200, height: 50)
+                        .background(Color("Color"))
+                        .clipShape(Capsule())
+                        .shadow(radius: 15)
+                }
                 Spacer()
-                    .frame(minHeight: 0, idealHeight: 150)
+                    .frame(minHeight: 0, idealHeight: 100)
             }.padding(.horizontal)
         }.accentColor(Color("Color"))
         .alert(isPresented: $model.alertIsPresented) {

@@ -20,8 +20,6 @@ struct SignInView: View {
                 .autocapitalization(.none)
                 .padding()
                 .background(Capsule().stroke(self.model.email != "" ? Color("Color") : Color.gray ,lineWidth: 2))
-            //.contentShape(Circle())
-            //.shadow(radius: 15)
             HStack(spacing: 15){
                 VStack{
                     if self.model.visible{

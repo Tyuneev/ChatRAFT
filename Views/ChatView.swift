@@ -13,33 +13,21 @@ struct ChatView: View {
     @ObservedObject var model: ChatViewModel
     var body: some View {
         VStack(spacing: 0) {
-//            HStack{
-//                Text("Global Chat")
-//                    .font(.title)
-//                    .fontWeight(.heavy)
-//                    .foregroundColor(.white)
-//                Spacer(minLength: 0)
-//            }
-//
-//            .padding()
-//            .padding(.top,UIApplication.shared.windows.first?.safeAreaInsets.top)
-//            .background(Color("Color"))
-            
             ScrollViewReader { reader in
                 ScrollView {
                     VStack(spacing: 15) {
                         ForEach(model.messeges) { messege in
                             MessegeView(model:
-                                MessegeViewModel(messege, from: model.members[messege.id])
+                                MessegeViewModel(messege, from: model.senderOf(messege))
                             )
                                 .id(messege.id)
                                 .onAppear {
                                     reader.scrollTo(model.messeges.last!.id, anchor: .bottom)
                                 }
                         }
-                        .onChange(of: model.messeges, perform: { value in
+                        .onChange(of: model.messeges) { value in
                             reader.scrollTo(model.messeges.last!.id, anchor: .bottom)
-                        })
+                        }
                     }
                     .padding(.vertical)
                 }
@@ -62,12 +50,7 @@ struct ChatView: View {
             }
             .animation(.default)
             .padding()
-            
         }
-//        .onAppear(perform: {
-//            homeData.onAppear()
-//        })
-        //.ignoresSafeArea(.all, edges: .top)
     }
 }
 

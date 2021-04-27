@@ -17,7 +17,8 @@ protocol UserStatePotocol {
 }
 
 protocol ServiceStatePotocol {
-    var serviceState: ServiceState { get set }
+    var serviceState: ServiceState { get }
+    func changeState(to: ServiceState)
     func serviceStatePublisher() -> AnyPublisher<ServiceState,Never>
 }
 
@@ -34,6 +35,8 @@ protocol GroupServiceProtocol {
     func changeUserInfo(_ new: Member, comlition: @escaping (Error?)->())
     func joinGroup(groupInfo: GroupInfo, userInfo: Member, comlition: @escaping (Error?)->())
     func createGroup(userInfo: Member, comlition: @escaping (Error?)->())
+    func userBecameOfline()
+    func userBecameOnline()
     
     var messeger: MessegerServiceProtocol { get }
     var geopositionSharing: GeopositionSheringServiceProtocol { get }
@@ -42,14 +45,14 @@ protocol GroupServiceProtocol {
 
 protocol MessegerServiceProtocol {
     func messegesPublisher() -> AnyPublisher<Messege,Never>
-    func getMesseges(from: Date, to: Date)
+    func messeges() -> [Messege]
     func sendMessege(_ messege: Messege, comlition: @escaping (Error?)->())
 }
 
 protocol GeopositionSheringServiceProtocol {
     func geopositionsPublisher() -> AnyPublisher<Geoposition,Never>
     func getLastGeopositions() -> [Geoposition]
-    func sendGeoposition(_ geoposition: Geoposition, comlition: @escaping (Error?)->())
+    func sendGeoposition(_ geoposition: Geoposition)
 }
 
 protocol MembersServiceProtocol {

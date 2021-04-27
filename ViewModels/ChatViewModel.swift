@@ -14,18 +14,17 @@ final class ChatViewModel: ObservableObject {
     @Published var messeges: [Messege] = []
     @Published var members: [String:Member] = [:]
     @Published var scrolled = false
-    @Published var messegeText = ""
+    @Published var messegeText = ""//вынести в отдельное view
     
     init() {
         self.service = FirebaseServices.shered.group.messeger
+        FirebaseServices.shered.group.members.members()
+            .forEach { member in
+            self.members[member.id] = member
+        }
         FirebaseServices.shered.group.members.membersPublisher()
             .sink(receiveValue: { (member) in
                 self.members[member.id] = member
-            })
-            .store(in: &cancellables)
-        FirebaseServices.shered.group.members.delitedMembersPublisher()
-            .sink(receiveValue: { (member) in
-                self.members[member.id] = nil
             })
             .store(in: &cancellables)
         self.service.messegesPublisher()
@@ -33,9 +32,13 @@ final class ChatViewModel: ObservableObject {
                 self.messeges.append(messege)
             })
             .store(in: &cancellables)
+        self.messeges = self.service.messeges()
     }
     
-    func sendMessege(){
+    func sendMessege() {
+        for m in members {
+            print(m.value.name)
+        }
         if self.messegeText != "" {
             service.sendMessege(Messege(content: messegeText)) { error in
                 if let error = error  {
@@ -44,5 +47,13 @@ final class ChatViewModel: ObservableObject {
             }
         }
         self.messegeText = ""
+    }
+    
+    func senderOf(_ messege: Messege) -> Member? {
+        if case Sender.id(let id) = messege.sender {
+            return members[id]
+        } else {
+            return nil
+        }
     }
 }

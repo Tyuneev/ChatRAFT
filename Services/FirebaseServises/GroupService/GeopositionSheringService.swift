@@ -36,18 +36,16 @@ class GeopositionSheringService: GeopositionSheringServiceProtocol {
     }
     
     func setGroupID(_ id: String? = nil) {
-        removeSnapshotListener()
         groupID = id
         if let id = id {
             self.geopositionsColectionName = "geopositions" + id
-            self.addSnapshotListener()
         }
         else {
             geopositionsColectionName = nil
         }
     }
     
-    private func addSnapshotListener() {
+    func addSnapshotListener() {
         guard let geopositionsColectionName = geopositionsColectionName,
               let userID = userID else {
             return
@@ -64,7 +62,7 @@ class GeopositionSheringService: GeopositionSheringServiceProtocol {
             }
     }
 
-    private func removeSnapshotListener() {
+    func removeSnapshotListener() {
         self.snapshotListener?.remove()
         self.snapshotListener = nil
     }
@@ -74,21 +72,21 @@ class GeopositionSheringService: GeopositionSheringServiceProtocol {
     }
     
     func getLastGeopositions() -> [Geoposition] {
-        []
-        //бд
+        [] //бд
     }
     
-    func sendGeoposition(_ geoposition: Geoposition, comlition: @escaping (Error?) -> ()) {
+    func sendGeoposition(_ geoposition: Geoposition) {
         guard let geopositionsColectionName  = geopositionsColectionName,
               let userID = self.userID else {
-            comlition("Нет данных пользователя")
             return
         }
         do {
-            _ = try Firestore.firestore().collection(geopositionsColectionName).addDocument(from: geoposition.makeDocument(with: userID))
-            comlition(nil)
+            try Firestore.firestore()
+                .collection(geopositionsColectionName)
+                .document(userID)
+                .setData(from: geoposition.makeDocument(with: userID))
         } catch {
-            comlition(error)
+            print(error)
         }
     }
     

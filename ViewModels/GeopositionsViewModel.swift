@@ -11,11 +11,6 @@ import Combine
 import SwiftUI
 
 final class GeopositionsViewModel: ObservableObject {
-//    enum deteilDisplayMod{
-//        case underMarker
-//        case atTopOfDisplay
-//    }
-//    private var deteilDisplayMod: deteilDisplayMod  = .atTopOfDisplay
     private let service: GeopositionSheringServiceProtocol
     private var cancellables = Set<AnyCancellable>()
     private var geopositions = [String: Geoposition]()
@@ -46,9 +41,9 @@ final class GeopositionsViewModel: ObservableObject {
     
     func nameFor(_ item: Geoposition) -> String {
         if case Sender.id(let id) = item.sender {
-            return members[id]?.name ?? ""
+            return members[id]?.name ?? " "
         } else {
-            return "Вы"
+            return members[userID]?.name ?? " "
         }
     }
     
@@ -80,46 +75,29 @@ final class GeopositionsViewModel: ObservableObject {
         guard let sender = geoposition?.sender else {
             return
         }
+        withAnimation() {
+            self.coordinateRegion = MKCoordinateRegion(center: center, span: span)
+        }
         if case Sender.id(let id) = sender {
-            withAnimation() {
-                self.coordinateRegion = MKCoordinateRegion(center: center, span: span)
-            }
             self.showDeteilForUser(with: id)
         } else {
-            withAnimation() {
-                self.coordinateRegion = MKCoordinateRegion(center: center, span: span)
-            }
-            self.showDeteilForUser(with: "USER")
+            self.showDeteilForUser(with: userID)
         }
+    
     }
     
-    func updateAnotoationsItems(){
-        var newItemsForAnotations = [Geoposition]()
-        for geoposition in geopositions.values {
-            //if members[geoposition.sender] != nil {
-                newItemsForAnotations.append(geoposition)
-            //}
-        }
-        ItemsForAnotations = newItemsForAnotations
+    func updateAnotoationsItems() {
+        ItemsForAnotations = geopositions.values.map {$0}
     }
     
-    func showDeteilForUser(with id: String){
+    func showDeteilForUser(with id: String) {
         deteilForUseerWithId = id
-        withAnimation(){
+        withAnimation {
             showDeteil = true
         }
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
-//            if let self = self,
-//               self.deteilForUseerWithId == id{
-//                withAnimation(){
-//                    self.deteilForUseerWithId == id
-//                    self.showDeteil = false
-//                }
-//            }
-//        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1)  {
-            if self.deteilForUseerWithId == id{
-                withAnimation(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if self.deteilForUseerWithId == id {
+                withAnimation(.easeOut) {
                     self.showDeteil = false
                 }
             }
@@ -130,12 +108,15 @@ final class GeopositionsViewModel: ObservableObject {
     init() {
         self.userID = FirebaseServices.shered.group.userInfo()?.id ?? ""
         self.service = FirebaseServices.shered.group.geopositionSharing
+        FirebaseServices.shered.group.members.members()
+            .forEach { member in
+            self.members[member.id] = member
+        }
         FirebaseServices.shered.group.members.membersPublisher()
             .sink { (member) in
                 self.members[member.id] = member
             }
             .store(in: &cancellables)
-        
         FirebaseServices.shered.group.members.delitedMembersPublisher()
             .sink {(member) in
                 self.members[member.id] = nil
@@ -157,27 +138,6 @@ final class GeopositionsViewModel: ObservableObject {
                 }
             }
             .store(in: &cancellables)
-//        members = model.members
-//        geopositions = model.geopositions
-//        model
-//            .$members
-//            .sink { members in
-//                self.members = members
-//                self.updateAnotoationsItems()
-//            }
-//            .store(in: &cancellables)
-//        model
-//            .$geopositions
-//            .sink { geopositions in
-//                let oldCount = self.geopositions.count
-//                self.geopositions = geopositions
-//                self.updateAnotoationsItems()
-//                if oldCount == 0 {
-//                    self.setCoordinateRegionFor(geoposition: self.ItemsForAnotations.first)
-//                }
-//            }
-//            .store(in: &cancellables)
-//
         self.updateAnotoationsItems()
         self.setCoordinateRegionFor(geoposition: self.ItemsForAnotations.first)
     }
