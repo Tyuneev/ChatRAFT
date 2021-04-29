@@ -105,7 +105,7 @@ class GeopositionSheringService: GeopositionSheringServiceProtocol {
 extension Geoposition {
     init(document: GeopositionDocument, userID: String) {
         self.latitude = document.latitude
-        self.longitude = document.latitude
+        self.longitude = document.longitude
         self.timeStamp = document.timeStamp
         let senderID = document.id ?? ""
         self.sender = (senderID == userID ? .user : .id(senderID))

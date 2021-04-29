@@ -158,9 +158,9 @@
 			children = (
 				B953225F257EB25E00BABBD4 /* GoogleService-Info.plist */,
 				CB96913625DFEC950022264A /* Info.plist */,
+				CB063F9D2638BBD300BEA159 /* include */,
 				CB063F9F2638BBEF00BEA159 /* lib */,
 				CB96913325DFEC950022264A /* Services */,
-				CB063F9D2638BBD300BEA159 /* include */,
 				B953223E257EB08000BABBD4 /* Assets.xcassets */,
 				B9A4B940259E70AE00FF7A65 /* AppIcon.appiconset */,
 				B92623FD258A5A7A005E3D0E /* Model */,

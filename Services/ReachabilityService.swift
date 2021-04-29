@@ -56,4 +56,7 @@ class IPv6reachability: ReachabilityServiceProtocol {
     }
 }
 
+
 ///https://stackoverflow.com/questions/30748480/swift-get-devices-wifi-ip-address/30754194#30754194
+
+

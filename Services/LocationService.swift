@@ -39,6 +39,7 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
         motionManager.startActivityUpdates(to: .main, withHandler: { [weak self] activity in
             self?.setActiveMode(activity?.cycling ?? false)
         })
+        sendLocation(locationManager.location?.coordinate)
     }
     
     private func setActiveMode(_ value: Bool) {
@@ -52,7 +53,11 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let coordinate = locations.last?.coordinate else {
+        sendLocation(locations.last?.coordinate)
+    }
+    
+    private func sendLocation(_ coordinate: CLLocationCoordinate2D?) {
+        guard let coordinate = coordinate else {
             return
         }
         geopositionService.sendGeoposition(Geoposition(latitude: coordinate.latitude, longitude: coordinate.longitude, timeStamp: Date(), sender: .user))
